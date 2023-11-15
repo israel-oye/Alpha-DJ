@@ -1,0 +1,18 @@
+{% extends 'base.htm' %}
+<!--  -->
+{% block content %}
+<form action="" method="post">
+    {% csrf_token %}
+    <!--  -->
+    {{form.as_p}}
+    <input type="submit" value="Submit">
+</form>
+<script type="text/javascript">
+    var submitButton = document.querySelector('input[type=submit]');
+    submitButton.addEventListener('click', function(e) {
+        //e.preventDefault();
+        //e.stopPropagation();
+        console.log(document.querySelector('input[type=date]').value);
+    })
+</script>
+{% endblock %}

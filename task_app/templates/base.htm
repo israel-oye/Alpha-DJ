@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task App</title>
+</head>
+
+<body>
+    <h1>
+        <a href="{% url 'task-home' %}">Task App</a>
+    </h1>
+    {% if request.user.is_authenticated %}
+    <a style="padding-right: 4px;" href="{% url 'add-task' %}">Add new task</a>
+    <a href="{% url 'logout' %}">Logout</a>
+    <!--  -->
+    {% else %}
+    <a href="{% url 'login' %}">Login</a>
+    <!--  -->
+    {% endif %}
+    <hr style="margin-bottom: 20px;">
+    <!--  -->
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+            {{ message }}
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <main>
+        {% block content %} {% endblock %}
+        <!--  -->
+        {% block script %} {% endblock %}
+    </main>
+
+</body>
+
+</html>

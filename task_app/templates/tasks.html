@@ -1,0 +1,55 @@
+{% extends 'base.htm' %}
+<!--  -->
+{% block content %}
+<table>
+    <thead>
+        <th>Task</th>
+        <th>Status</th>
+        <th>Due</th>
+    </thead>
+    <tbody>
+        {% for task in tasks %}
+        <tr>
+            <td>{{task.title}}</td>
+            <td>{{task.get_status_display}}</td>
+            <td>{{ task.due_date|date:'D, d M. G:i'}}</td>
+            <td><a href="{% url 'update-task' task.id %}">Edit</a></td>
+            <td>
+                <a class="delete-btn" href="javascript:;" onclick="handleClick('{{task.id}}')">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+<!--  -->
+{% block script %}
+<script type="text/javascript">
+    async function handleClick(taskId) {
+        if (confirm("Are you sure you want to delete this task?")) {
+            try {
+                fetch(`/task/delete-task/${taskId}`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': '{{csrf_token}}'
+                        },
+                    })
+                    .then((response) => {
+                        if (response.status == 200) {
+                            alert(`Task deleted successfully!`);
+                            window.location = window.location;
+                        } else if (response.status == 401) {
+                            alert("Please login again to edit task.");
+                            window.location.replace("{% url 'login' %}?next=/task/all");
+                        } else {
+                            alert("An error occured!");
+                        }
+                    });
+
+            } catch (error) {
+                console.error(error)
+            }
+        }
+    }
+</script>
+{% endblock %}

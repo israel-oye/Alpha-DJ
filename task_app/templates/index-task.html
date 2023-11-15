@@ -1,0 +1,12 @@
+ {% extends 'base.htm' %}
+<!--  -->
+{% block content %}
+<h3>Hello World!</h3>
+<hr>
+<h3>What's on your to-do list for today?</h3>
+<br>
+<p>Add <a href="{% url 'add-task' %}">here</a>!</p>
+<p>
+    View all tasks <a href="{% url 'all-tasks' %}">here</a>
+</p>
+{% endblock %}
